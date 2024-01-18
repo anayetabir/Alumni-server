@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const app = express();
 const port = process.env.PORT || 5000;
 
@@ -37,6 +37,8 @@ async function run() {
 
         const eventCollection = client.db('eventDB').collection('event');
 
+
+        // Create Data
         app.post('/event', async (req, res) => {
 
             const newEvent = req.body;
@@ -45,6 +47,21 @@ async function run() {
             res.send(result);
         })
 
+        // Read Data
+
+        app.get('/event', async (req, res) => {
+            const cursor = eventCollection.find();
+            const result = await cursor.toArray();
+            res.send(result);
+        })
+
+        // Delete
+        app.delete('/event/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: new ObjectId(id) }
+            const result = await eventCollection.deleteOne(query);
+            res.send(result);
+        })
 
 
 
