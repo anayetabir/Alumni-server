@@ -63,6 +63,37 @@ async function run() {
             res.send(result);
         })
 
+        // Update
+        app.get('/event/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: new ObjectId(id) }
+            const result = await eventCollection.findOne(query);
+            res.send(result);
+
+        })
+
+        app.put('/event/:id', async (req, res) => {
+            const id = req.params.id;
+            const filter = { _id: new ObjectId(id) };
+            const options = { upsert: true };
+            const updatedEvent = req.body;
+            const event = {
+                $set: {
+                    title: updatedEvent.title,
+                    type: updatedEvent.type,
+                    description: updatedEvent.description,
+                    startDate: updatedEvent.startDate,
+                    endDate: updatedEvent.endDate
+                }
+            }
+
+            const result = await eventCollection.updateOne(filter, event, options);
+            res.send(result);
+
+
+
+        })
+
 
 
 
