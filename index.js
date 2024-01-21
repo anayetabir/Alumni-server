@@ -83,7 +83,7 @@ async function run() {
                     type: updatedEvent.type,
                     description: updatedEvent.description,
                     startDate: updatedEvent.startDate,
-                    endDate: updatedEvent.endDate
+                    endDate: updatedEvent.endDate,
                 }
             }
 
